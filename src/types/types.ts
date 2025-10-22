@@ -11,5 +11,5 @@ export interface MenuItem {
   description: string;  // brief description
   course: Course;       // one of the predefined courses
   price: number;        // price in the chosen currency (numbers only)
-  image?: string;       // optional small image URL (Part 3 can add upload)
+  image?: string;       // optional image (Part 3)
 }
