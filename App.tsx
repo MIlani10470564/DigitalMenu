@@ -14,20 +14,21 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
-import type { MenuItem, Course } from './src/types';
+import { MenuItem, Course } from './src/types/types';
+
 
 // --- Main App Function ---
 export default function App() {
-  // 1️⃣ State: store all menu items here
+  //  State: store all menu items here
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
 
-  // 2️⃣ State: temporary input values for adding new dishes
+  //  State: temporary input values for adding new dishes
   const [dishName, setDishName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [selectedCourse, setSelectedCourse] = useState<Course>('Starter');
 
-  // 3️⃣ Function: add a new menu item
+  //  Function: add a new menu item
   const addMenuItem = () => {
     if (!dishName || !description || !price) return;
 
@@ -45,18 +46,23 @@ export default function App() {
     setPrice('');
   };
 
-  // 4️⃣ Count items by course
+  // Count items by course
   const totalItems = menuItems.length;
   const startersCount = menuItems.filter(m => m.course === 'Starter').length;
   const mainsCount = menuItems.filter(m => m.course === 'Main').length;
   const dessertsCount = menuItems.filter(m => m.course === 'Dessert').length;
 
-  // 5️⃣ UI layout
+  //  UI layout
   return (
     <SafeAreaView style={styles.safe}>
       {/* Header */}
       <Text style={styles.title}>NU CHEF</Text>
-
+{/* Placeholder Bottom Bar */}
+<View style={styles.bottomBar}>
+  <Text style={styles.bottomText}> Home</Text>
+  <Text style={styles.bottomText}> Add</Text>
+  <Text style={styles.bottomText}>Menu</Text>
+</View>
       {/* Counts */}
       <View style={styles.countRow}>
         <Text style={styles.countText}>Total: {totalItems}</Text>
@@ -65,38 +71,41 @@ export default function App() {
         <Text style={styles.countText}>Desserts: {dessertsCount}</Text>
       </View>
 
-      {/* Course Tabs */}
-      <View style={styles.tabRow}>
-        {(['Starter', 'Main', 'Dessert'] as Course[]).map(course => (
-          <TouchableOpacity
-            key={course}
-            style={[
-              styles.tab,
-              selectedCourse === course && styles.activeTab,
-            ]}
-            onPress={() => setSelectedCourse(course)}
-          >
-            <Text
-              style={[
-                styles.tabText,
-                selectedCourse === course && styles.activeTabText,
-              ]}
-            >
-              {course}s
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+     {/* Course Tabs */}
+<View style={styles.tabRow}>
+  {(['Starter', 'Main', 'Dessert'] as Course[]).map(course => (
+    <TouchableOpacity
+      key={course}
+      style={[
+        styles.tab,
+        selectedCourse === course && styles.activeTab,
+      ]}
+      onPress={() => setSelectedCourse(course)}
+    >
+      <Text
+        style={[
+          styles.tabText,
+          selectedCourse === course && styles.activeTabText,
+        ]}
+      >
+        {course}s
+      </Text>
+    </TouchableOpacity>
+  ))}
+</View>
 
-      {/* Add Menu Item Form */}
-      <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder="Dish name"
-          placeholderTextColor="#888"
-          value={dishName}
-          onChangeText={setDishName}
-        />
+
+
+{/* Add Menu Item Form */}
+<View style={styles.form}>
+  <TextInput
+    style={styles.input}
+    placeholder="Dish name"
+    placeholderTextColor="#888"
+    value={dishName}
+    onChangeText={setDishName}
+  />
+        /
         <TextInput
           style={styles.input}
           placeholder="Description"
@@ -140,32 +149,42 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 30,
   },
+
+  // ---------- HEADER ----------
   title: {
-    fontSize: 26,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'center',
-    marginVertical: 10,
+    letterSpacing: 2,
+    marginBottom: 10,
   },
+
+  // ---------- COUNTS ----------
   countRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 10,
+    marginVertical: 8,
   },
   countText: {
     color: '#000',
     fontWeight: '600',
+    fontSize: 14,
   },
+
+  // ---------- TABS ----------
   tabRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 10,
+    marginVertical: 12,
   },
   tab: {
-    padding: 10,
-    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: '#000',
   },
@@ -174,24 +193,47 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: '#000',
+    fontWeight: '600',
   },
   activeTabText: {
     color: '#fff',
   },
+
+  // ---------- TOTAL ----------
+  totalRow: {
+    alignItems: 'center',
+    marginVertical: 10,
+    backgroundColor: '#f7f7f7',
+    padding: 10,
+    borderRadius: 10,
+  },
+  totalText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  // ---------- FORM ----------
   form: {
-    marginVertical: 12,
+    marginVertical: 15,
+    backgroundColor: '#fafafa',
+    borderRadius: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#000',
   },
   input: {
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 6,
-    padding: 8,
+    padding: 10,
     marginVertical: 6,
     color: '#000',
+    backgroundColor: '#fff',
   },
   addButton: {
     backgroundColor: '#000',
-    padding: 10,
+    padding: 12,
     borderRadius: 8,
     marginTop: 6,
   },
@@ -199,27 +241,55 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontWeight: 'bold',
+    fontSize: 15,
   },
+
+  // ---------- MENU LIST ----------
   itemCard: {
     borderWidth: 1,
     borderColor: '#000',
-    borderRadius: 6,
+    borderRadius: 10,
     padding: 10,
-    marginVertical: 6,
+    marginVertical: 8,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 1,
   },
   itemTitle: {
     fontWeight: 'bold',
     color: '#000',
+    fontSize: 16,
+    marginBottom: 3,
   },
   itemDesc: {
-    color: '#333',
+    color: '#444',
+    marginBottom: 4,
   },
   itemCourse: {
     fontStyle: 'italic',
-    color: '#555',
+    color: '#777',
+    fontSize: 12,
   },
   itemPrice: {
     color: '#000',
     fontWeight: 'bold',
+    fontSize: 14,
+    textAlign: 'right',
+  },
+
+  // ---------- BOTTOM BAR ----------
+  bottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 15,
+    borderTopWidth: 1,
+    borderColor: '#000',
+    backgroundColor: '#fff',
+  },
+  bottomText: {
+    color: '#000',
+    fontWeight: '600',
   },
 });
