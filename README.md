@@ -44,7 +44,8 @@ The main purpose of the NU CHEF app is to help the chef:
 	8.	Logo and Branding
 	•	Displays the NU CHEF logo and title at the top of the screen.
 
-
+LINK TO YOUTUBE VIDEO
+https://youtu.be/j2Q7d31vpmY?si=dVYeMPldVjzI3RZE
 
 9. References
 	1.	Expo Documentation. Getting Started with Expo and React Native.
